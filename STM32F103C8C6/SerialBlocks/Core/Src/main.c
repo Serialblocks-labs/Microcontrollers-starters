@@ -58,11 +58,17 @@ static void MX_TIM2_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 void toggleLedPin(void) {
-  char ledStatusJSON[20]; // Adjust the size as per your requirement
+  char ledStatusJSON[40]; // Adjust the size as per your requirement
   // Assuming you have defined appropriate macros or variables for
   // LED_GPIO_Port and LED_Pin
   int ledStatus = HAL_GPIO_ReadPin(LED_GPIO_Port, LED_Pin);
-  snprintf(ledStatusJSON, sizeof(ledStatusJSON), "{\"LED\":%d}\r\n", ledStatus);
+  snprintf(ledStatusJSON, sizeof(ledStatusJSON),
+	    	"{"
+	             "\"LED\": {"
+	             "\"value\": %d"
+	             "}"
+	         "}"
+	             "\r\n", ledStatus);
 
   // toggle pin
   HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
