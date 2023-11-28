@@ -63,12 +63,7 @@ void toggleLedPin(void) {
   // LED_GPIO_Port and LED_Pin
   int ledStatus = HAL_GPIO_ReadPin(LED_GPIO_Port, LED_Pin);
   snprintf(ledStatusJSON, sizeof(ledStatusJSON),
-	    	"{"
-	             "\"LED\": {"
-	             "\"value\": %d"
-	             "}"
-	         "}"
-	             "\r\n", ledStatus);
+	    	"{\"LED\":%d } \r\n", ledStatus);
 
   // toggle pin
   HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
@@ -137,31 +132,27 @@ int main(void)
     uint8_t tempValue = HAL_ADC_GetValue(&hadc1);
     uint8_t brightness = HAL_ADC_GetValue(&hadc2);
     float processorTemp = (357.558 - 0.187364 * tempValue) / 10.0;
-    char sentBuff[65];
+    char sentBuff[200];
 
-	// send processorTemp
+	// send processorTemp and brightness
     snprintf(sentBuff, sizeof(sentBuff),
     	"{"
              "\"processorTemp\": {"
              "\"value\": %.4f,"
              " \"interval\": %d"
-             "}"
+             "}, "
+
+    		 "\"brightness\": {"
+    		 "\"value\": %d,"
+    		 " \"interval\": %d"
+    		 "}"
          "}"
-             "\r\n", processorTemp, interval);
+             "\r\n", processorTemp, interval, brightness, interval);
 
 // use strlen instead of sizeof while using hal_uart_transmit as it sends rubbish values on the remaining space
     HAL_UART_Transmit(&huart1, (uint8_t *)sentBuff, strlen(sentBuff), 100);
 
-	// send brightness
-    snprintf(sentBuff, sizeof(sentBuff),
-    	"{"
-             "\"brightness\": {"
-             "\"value\": %d,"
-             " \"interval\": %d"
-             "}"
-         "}"
-             "\r\n", brightness, interval);
-    HAL_UART_Transmit(&huart1, (uint8_t *)sentBuff, strlen(sentBuff), 100);
+
     HAL_Delay(interval);
   }
 

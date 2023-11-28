@@ -1,0 +1,45 @@
+	char sentBuff[200];
+
+    // send processorTemp and brightness in one go
+    snprintf(sentBuff, sizeof(sentBuff),
+    	"{"
+             "\"processorTemp\": {"
+             "\"value\": %.4f,"
+             " \"interval\": %d"
+             "}, "
+
+    		 "\"brightness\": {"
+    		 "\"value\": %d,"
+    		 " \"interval\": %d"
+    		 "}"
+         "}"
+             "\r\n", processorTemp, interval, brightness, interval);
+             
+    HAL_UART_Transmit(&huart1, (uint8_t *)sentBuff, strlen(sentBuff), 100);
+
+/* ----------------------------------------------------------------------------------------------------------------------- */
+// send both but individually
+char sentBuff[65];
+	// send processorTemp
+    snprintf(sentBuff, sizeof(sentBuff),
+    	"{"
+             "\"processorTemp\": {"
+             "\"value\": %.4f,"
+             " \"interval\": %d"
+             "}"
+         "}"
+             "\r\n", processorTemp, interval);
+
+// use strlen instead of sizeof while using hal_uart_transmit as it sends rubbish values on the remaining space
+    HAL_UART_Transmit(&huart1, (uint8_t *)sentBuff, strlen(sentBuff), 100);
+
+	// send brightness
+    snprintf(sentBuff, sizeof(sentBuff),
+    	"{"
+             "\"brightness\": {"
+             "\"value\": %d,"
+             " \"interval\": %d"
+             "}"
+         "}"
+             "\r\n", brightness, interval);
+    HAL_UART_Transmit(&huart1, (uint8_t *)sentBuff, strlen(sentBuff), 100);

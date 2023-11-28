@@ -1,6 +1,6 @@
 ../Core/Src/main.c:60:6:toggleLedPin	48	static
-../Core/Src/main.c:179:6:SystemClock_Config	96	static
-../Core/Src/main.c:87:5:main	168	static
-../Core/Src/main.c:445:6:HAL_GPIO_EXTI_Callback	56	static
-../Core/Src/main.c:460:6:HAL_UART_RxCpltCallback	136	static
-../Core/Src/main.c:502:6:Error_Handler	0	static
+../Core/Src/main.c:170:6:SystemClock_Config	96	static
+../Core/Src/main.c:82:5:main	304	static
+../Core/Src/main.c:436:6:HAL_GPIO_EXTI_Callback	56	static
+../Core/Src/main.c:451:6:HAL_UART_RxCpltCallback	136	static
+../Core/Src/main.c:493:6:Error_Handler	0	static
